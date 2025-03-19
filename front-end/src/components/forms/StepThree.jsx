@@ -1,17 +1,17 @@
 import { Goal } from "lucide-react";
 
-export default function StepThree() {
+export default function StepThree(props) {
   return (
     <div className="flex-grow flex flex-col">
       <div className="flex flex-col justify-center items-center gap-2 my-4">
-        <p className="text-gray-800 font-bold px-18 text-2xl text-center">
+        <p className="text-gray-800 font-bold px-14 text-2xl text-center">
           WHat's your goal?
         </p>
-        <p className="text-teal-600 font-semibold px-18 text-md text-center">
+        <p className="text-teal-600 font-semibold px-14 text-md text-center">
           Stay on Top of Your Health Goals!
         </p>
       </div>
-      <div className="flex-grow flex flex-col justify-between px-6 h-full">
+      <div className="flex-grow flex flex-col justify-between h-full">
         <div className="">
           <label
             htmlFor="goal-one"
@@ -19,9 +19,17 @@ export default function StepThree() {
           >
             <div className="flex items-center gap-2">
               <Goal size={28} className="text-rose-500" />
-              <p className="text-lg text-gray-900 font-semibold">Wight loss</p>
+              <p className="text-lg text-gray-900 font-semibold">Weight loss</p>
             </div>
-            <input type="radio" name="goal" id="goal-one" className="hidden" />
+            <input
+              type="radio"
+              name="goal"
+              id="goal-one"
+              className="hidden"
+              value={"weight-loss"}
+              defaultChecked 
+              onChange={props.handleChanges}
+            />
           </label>
           <label
             htmlFor="goal-two"
@@ -30,10 +38,17 @@ export default function StepThree() {
             <div className="flex items-center gap-2">
               <Goal size={28} className="text-rose-500" />
               <p className="text-lg text-gray-900 font-semibold">
-                Wight maintenance
+                Weight maintenance
               </p>
             </div>
-            <input type="radio" name="goal" id="goal-two" className="hidden" />
+            <input
+              type="radio"
+              name="goal"
+              id="goal-two"
+              className="hidden"
+              value={"weight-maintenance"}
+              onChange={props.handleChanges}
+            />
           </label>
           <label
             htmlFor="goal-three"
@@ -41,19 +56,18 @@ export default function StepThree() {
           >
             <div className="flex items-center gap-2">
               <Goal size={28} className="text-rose-500" />
-              <p className="text-lg text-gray-900 font-semibold">Wight gain</p>
+              <p className="text-lg text-gray-900 font-semibold">Weight gain</p>
             </div>
             <input
               type="radio"
               name="goal"
               id="goal-three"
               className="hidden"
+              value={"weight-gain"}
+              onChange={props.handleChanges}
             />
           </label>
         </div>
-        <button className="rounded-xl bg-rose-500 text-white py-3 text-xl my-4">
-          Next
-        </button>
       </div>
     </div>
   );

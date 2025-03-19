@@ -6,10 +6,10 @@ export default function StepTwo(props) {
   return (
     <div className="flex flex-col flex-grow">
       <div className="flex flex-col justify-center items-center gap-2 my-4">
-        <p className="text-gray-800 font-bold px-18 text-2xl text-center">
+        <p className="text-gray-800 font-bold px-14 text-2xl text-center">
           How old are you?
         </p>
-        <p className="text-teal-600 font-semibold px-18 text-md text-center">
+        <p className="text-teal-600 font-semibold px-14 text-md text-center">
           Track your daily calories
         </p>
       </div>
@@ -17,7 +17,7 @@ export default function StepTwo(props) {
         <div className="flex items-center gap-2">
           <Picker
             value={{ age: props.selectedAge }}
-            onChange={(value) => props.setSelectedAge(value.age)}
+            onChange={props.setAge}
           >
             <Picker.Column name="age">
               {ageOptions.map((age) => (
@@ -29,9 +29,6 @@ export default function StepTwo(props) {
           </Picker>
           <p>years</p>
         </div>
-        <button className="w-full rounded-xl bg-rose-500 text-white py-3 text-xl my-4">
-          Next
-        </button>
       </div>
     </div>
   );
