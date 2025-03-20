@@ -1,0 +1,3 @@
+<?php
+
+// Mini app launch
