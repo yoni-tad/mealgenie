@@ -20,8 +20,6 @@ export default function GenerateRecipe() {
   function spoonacularRequest() {
     setOnLoading(true);
     const apiKey = import.meta.env.VITE_SPOONACULAR_API;
-
-    //  "apple, sugar, wheat";
     const ingredients = ingredient.map((item) => item.name).join(", ");
     fetch(
       `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${apiKey}&ingredients=${ingredients}&number=3`

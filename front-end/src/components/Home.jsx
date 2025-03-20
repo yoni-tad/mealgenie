@@ -41,7 +41,7 @@ export default function Home(props) {
     <div className="flex flex-col px-4">
       <div className="flex justify-between">
         <CircleUser size={28} />
-        <a href="" target="_blank">
+        <a href="https://github.com/yoni-tad/mealgenie" target="_blank">
           <Star size={28} className="text-yellow-400" />
         </a>
       </div>
