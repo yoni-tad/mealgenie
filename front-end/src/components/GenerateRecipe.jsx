@@ -2,11 +2,7 @@ import { Check } from "lucide-react";
 import { useRef, useState } from "react";
 
 export default function GenerateRecipe() {
-  const [ingredient, setIngredient] = useState([
-    { name: "apple" },
-    { name: "sugar" },
-    { name: "wheat" },
-  ]);
+  const [ingredient, setIngredient] = useState([]);
   const [recipe, setRecipe] = useState([]);
   const [onLoading, setOnLoading] = useState(false);
   const inputRef = useRef();
@@ -23,11 +19,12 @@ export default function GenerateRecipe() {
 
   function spoonacularRequest() {
     setOnLoading(true);
+    const apiKey = import.meta.env.VITE_SPOONACULAR_API;
 
     //  "apple, sugar, wheat";
     const ingredients = ingredient.map((item) => item.name).join(", ");
     fetch(
-      `https://api.spoonacular.com/recipes/findByIngredients?apiKey=5bdc7596000040ccadcb04b716a04eb6&ingredients=${ingredients}&number=3`
+      `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${apiKey}&ingredients=${ingredients}&number=3`
     )
       .then((res) => res.json())
       .then((data) => {

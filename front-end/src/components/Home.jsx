@@ -1,4 +1,10 @@
-import { Menu, Star, Carrot, ChevronRight, ArrowRight } from "lucide-react";
+import {
+  CircleUser,
+  Star,
+  Carrot,
+  ChevronRight,
+  ArrowRight,
+} from "lucide-react";
 import MealCard from "./ui/MealCard";
 import { useState } from "react";
 import AllMealPlans from "./AllMealPlans";
@@ -34,8 +40,10 @@ export default function Home(props) {
   return (
     <div className="flex flex-col px-4">
       <div className="flex justify-between">
-        <Menu size={28} />
-        <Star size={28} className="text-yellow-400" />
+        <CircleUser size={28} />
+        <a href="" target="_blank">
+          <Star size={28} className="text-yellow-400" />
+        </a>
       </div>
       <div className="py-6 text-start">
         <p className="text-3xl font-bold">Hi, Yoni</p>
@@ -58,7 +66,10 @@ export default function Home(props) {
           <>
             <div className="flex justify-between">
               <p className="font-semibold">All meal plans</p>
-              <p onClick={() => handleRoute("home")} className="flex gap-2 cursor-pointer">
+              <p
+                onClick={() => handleRoute("home")}
+                className="flex gap-2 cursor-pointer"
+              >
                 Today meal plan <ArrowRight />
               </p>
             </div>
@@ -80,7 +91,10 @@ export default function Home(props) {
           <>
             <div className="flex justify-between">
               <p className="font-semibold">Generate Recipe</p>
-              <p onClick={() => handleRoute("home")} className="flex gap-2 cursor-pointer">
+              <p
+                onClick={() => handleRoute("home")}
+                className="flex gap-2 cursor-pointer"
+              >
                 Today meal plan <ArrowRight />
               </p>
             </div>
@@ -91,7 +105,10 @@ export default function Home(props) {
           <>
             <div className="flex justify-between">
               <p className="font-semibold">Today meal plan</p>
-              <p onClick={() => handleRoute("seeAll")} className="flex gap-2 cursor-pointer">
+              <p
+                onClick={() => handleRoute("seeAll")}
+                className="flex gap-2 cursor-pointer"
+              >
                 See all <ArrowRight />
               </p>
             </div>
@@ -101,6 +118,10 @@ export default function Home(props) {
               : todayMeal.meals.map((meal, index) => {
                   return <MealCard key={index} meal={meal} />;
                 })}
+
+            <p className="py-4 cursor-pointer" onClick={props.clearData}>
+              Clear data
+            </p>
           </>
         )}
       </div>

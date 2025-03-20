@@ -2,7 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const PROMPT = `You are an advanced nutritionist AI designed to calculate the exact daily calorie intake based on user data. Perform all necessary calculations internally but return only a single number as the final result, representing the daily calorie intake (e.g., '2300'). Do not include any words, explanations, or formatting—just the number`;
 
-const genAI = new GoogleGenerativeAI("AIzaSyBSitkeCjGIqd4bOZLMiFhYgFfvuBDnl1E");
+const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_AI_API);
 
 export async function getResponseFromAI(userData) {
   try {

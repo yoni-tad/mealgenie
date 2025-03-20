@@ -183,7 +183,7 @@ export default function App() {
       {steps === "finished" ? (
         <FinalStep caloryAmount={userData.caloryAmount} />
       ) : null}
-      {steps == "home" ? <Home /> : null}
+      {steps == "home" ? <Home clearData={clearData} /> : null}
       {steps != "home" ? (
         <NavBtn
           onloading={onLoading}
