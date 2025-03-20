@@ -33,10 +33,7 @@ export default function App() {
       ? JSON.parse(localStorage.getItem("Progress"))
       : 16.6
   );
-
-  // console.log(userData)
-  // console.log(steps)
-  // console.log('Progress: ' + localStorage.getItem("Progress"));
+  const [onLoading, setOnLoading] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("Data", JSON.stringify(userData));
@@ -45,6 +42,7 @@ export default function App() {
   }, [steps]);
 
   async function getData() {
+    setOnLoading(true);
     const generatedData = await getResponseFromAI(userData);
     const calorieIntake = parseInt(generatedData.match(/\d+/)?.[0] || "0", 10);
     setUserData((prevData) => ({
@@ -52,6 +50,7 @@ export default function App() {
       caloryAmount: calorieIntake,
     }));
     setSteps("finished");
+    setOnLoading(false);
   }
 
   function handleNav(step) {
@@ -126,6 +125,8 @@ export default function App() {
   // clearData()
 
   async function getMealPlan() {
+    setOnLoading(true);
+
     const rawData = await generateMealPlan();
     const jsonMatch = rawData.match(/```json\s*([\s\S]*?)\s*```/);
 
@@ -141,6 +142,7 @@ export default function App() {
     } else {
       console.error("No valid JSON found in response.");
     }
+    setOnLoading(false);
   }
 
   return (
@@ -161,6 +163,7 @@ export default function App() {
       {steps == "home" ? <Home /> : null}
       {steps != "home" ? (
         <NavBtn
+          onloading={onLoading}
           btnText={
             steps === "step-6"
               ? "Finished"

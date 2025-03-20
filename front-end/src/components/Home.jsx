@@ -2,6 +2,7 @@ import { Menu, Star, Carrot, ChevronRight, ArrowRight } from "lucide-react";
 import MealCard from "./ui/MealCard";
 import { useState } from "react";
 import AllMealPlans from "./AllMealPlans";
+import GenerateRecipe from "./GenerateRecipe";
 
 export default function Home(props) {
   const [route, seRoute] = useState("home");
@@ -26,8 +27,6 @@ export default function Home(props) {
     }
   });
 
-  // console.log(mealPlanData["weekPlan"])
-
   function handleRoute(route) {
     seRoute(route);
   }
@@ -42,19 +41,24 @@ export default function Home(props) {
         <p className="text-3xl font-bold">Hi, Yoni</p>
         <p className="">Exercise is king. Nutrition is queen</p>
       </div>
-      <div className="flex justify-between bg-rose-500 text-white rounded-xl p-6">
-        <div className="flex gap-2">
-          <Carrot />
-          <p>Find recipe by ingredients</p>
+      {route != "recipe" ? (
+        <div
+          onClick={() => handleRoute("recipe")}
+          className="flex justify-between bg-rose-500 text-white rounded-xl p-6 cursor-pointer"
+        >
+          <div className="flex gap-2">
+            <Carrot />
+            <p>Find recipe by ingredients</p>
+          </div>
+          <ChevronRight />
         </div>
-        <ChevronRight />
-      </div>
+      ) : null}
       <div className="py-6 text-center">
-        {route != "home" ? (
+        {route == "seeAll" ? (
           <>
             <div className="flex justify-between">
               <p className="font-semibold">All meal plans</p>
-              <p onClick={() => handleRoute("home")} className="flex gap-2">
+              <p onClick={() => handleRoute("home")} className="flex gap-2 cursor-pointer">
                 Today meal plan <ArrowRight />
               </p>
             </div>
@@ -66,17 +70,28 @@ export default function Home(props) {
                     <ul key={index}>
                       <li>
                         {/* <p>{meal.day}</p> */}
-                        <AllMealPlans meal={meal}/>
+                        <AllMealPlans meal={meal} />
                       </li>
                     </ul>
                   );
                 })}
           </>
+        ) : route == "recipe" ? (
+          <>
+            <div className="flex justify-between">
+              <p className="font-semibold">Generate Recipe</p>
+              <p onClick={() => handleRoute("home")} className="flex gap-2 cursor-pointer">
+                Today meal plan <ArrowRight />
+              </p>
+            </div>
+
+            <GenerateRecipe />
+          </>
         ) : (
           <>
             <div className="flex justify-between">
               <p className="font-semibold">Today meal plan</p>
-              <p onClick={() => handleRoute("seeAll")} className="flex gap-2">
+              <p onClick={() => handleRoute("seeAll")} className="flex gap-2 cursor-pointer">
                 See all <ArrowRight />
               </p>
             </div>
