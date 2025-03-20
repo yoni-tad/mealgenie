@@ -1,6 +1,6 @@
 import { CircleCheck } from "lucide-react";
 
-export default function FinalStep() {
+export default function FinalStep(props) {
   return (
     <div className="flex-grow flex flex-col justify-center items-center gap-2">
       <CircleCheck size={148} className="text-rose-500" />
@@ -11,7 +11,7 @@ export default function FinalStep() {
         Your daily calories rate is
       </p>
       <p className="text-teal-600 text-xl font-bold px-14 text-md text-center">
-        2800 Kcal
+        {props.caloryAmount} Kcal
       </p>
     </div>
   );

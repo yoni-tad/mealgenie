@@ -37,18 +37,18 @@ export default function StepFour(props) {
               />
             </label>
             <label
-              htmlFor="height-inch"
+              htmlFor="height-ft"
               className="flex justify-between items-center rounded-e-lg px-8 py-1 border border-teal-600 text-gray-800 has-[:checked]:bg-teal-600 has-[:checked]:text-white mb-4"
             >
               <p className="text-center text-lg font-semibold has-[:checked]:text-white">
-                inch
+                ft
               </p>
               <input
                 type="radio"
                 name="heightMeasurement"
-                id="height-inch"
+                id="height-ft"
                 className="hidden"
-                value={"inch"}
+                value={"ft"}
                 onChange={props.handleChanges}
               />
             </label>

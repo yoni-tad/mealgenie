@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "@huggingface/inference": "^3.6.1",
     "@tailwindcss/vite": "^4.0.14",
     "lucide-react": "^0.483.0",
     "react": "^19.0.0",

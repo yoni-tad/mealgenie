@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StepOne from "./components/forms/StepOne";
 import Header from "./components/forms/Header";
 import StepTwo from "./components/forms/StepTwo";
@@ -10,6 +10,8 @@ import FinalStep from "./components/forms/FinalStep";
 import Progress from "./components/Progress";
 import Home from "./components/Home";
 import NavBtn from "./components/ui/NavBtn";
+import { getResponseFromAI, generateMealPlan } from "./ai";
+import AllMealPlans from "./components/AllMealPlans";
 
 export default function App() {
   const [userData, setUserData] = useState({
@@ -21,11 +23,36 @@ export default function App() {
     weight: "",
     weightMeasurement: "kg",
     weightGoal: "",
+    caloryAmount: "",
   });
-  // console.log(userData);
-  const [steps, setSteps] = useState("step-1");
-  const [progress, setProgress] = useState(16.6);
-  // console.log("current step: " + steps);
+  const [steps, setSteps] = useState(
+    localStorage.getItem("Nav") != null ? localStorage.getItem("Nav") : "step-1"
+  );
+  const [progress, setProgress] = useState(
+    localStorage.getItem("Progress")
+      ? JSON.parse(localStorage.getItem("Progress"))
+      : 16.6
+  );
+
+  // console.log(userData)
+  // console.log(steps)
+  // console.log('Progress: ' + localStorage.getItem("Progress"));
+
+  useEffect(() => {
+    localStorage.setItem("Data", JSON.stringify(userData));
+    localStorage.setItem("Nav", steps);
+    localStorage.setItem("Progress", JSON.stringify(progress));
+  }, [steps]);
+
+  async function getData() {
+    const generatedData = await getResponseFromAI(userData);
+    const calorieIntake = parseInt(generatedData.match(/\d+/)?.[0] || "0", 10);
+    setUserData((prevData) => ({
+      ...prevData,
+      caloryAmount: calorieIntake,
+    }));
+    setSteps("finished");
+  }
 
   function handleNav(step) {
     switch (step) {
@@ -43,10 +70,9 @@ export default function App() {
         }
         break;
       case "step-3":
-        if (userData.goal) {
-          setSteps("step-4");
-          setProgress(66.7);
-        }
+        setSteps("step-4");
+        setProgress(66.7);
+
         break;
       case "step-4":
         if (userData.height) {
@@ -61,8 +87,14 @@ export default function App() {
         }
         break;
       case "step-6":
-        userData.weightGoal && setSteps("finished");
+        if (userData.weightGoal) {
+          userData.caloryAmount && setSteps("finished");
+        }
         console.log(userData);
+        break;
+      case "finished":
+        userData.caloryAmount;
+        setSteps("home");
         break;
 
       default:
@@ -86,10 +118,35 @@ export default function App() {
     }
   }
 
+  function clearData() {
+    localStorage.clear();
+    setSteps("step-1");
+    setProgress(16.6);
+  }
+  // clearData()
+
+  async function getMealPlan() {
+    const rawData = await generateMealPlan();
+    const jsonMatch = rawData.match(/```json\s*([\s\S]*?)\s*```/);
+
+    if (jsonMatch) {
+      const jsonString = jsonMatch[1].trim();
+      try {
+        const jsonData = JSON.parse(jsonString);
+        localStorage.setItem("MealPlan", JSON.stringify(jsonData));
+        setSteps("home");
+      } catch (error) {
+        console.error("JSON Parsing Error:", error);
+      }
+    } else {
+      console.error("No valid JSON found in response.");
+    }
+  }
+
   return (
     <main className="flex flex-col h-screen py-10 px-4">
-      <Header />
-      <Progress progress={progress} />
+      {steps != "home" ? <Header clearData={clearData} /> : null}
+      {steps != "home" ? <Progress progress={progress} /> : null}
       {steps === "step-1" ? <StepOne handleChanges={handleChanges} /> : null}
       {steps === "step-2" ? (
         <StepTwo selectedAge={userData.age} setAge={handleChanges} />
@@ -98,18 +155,29 @@ export default function App() {
       {steps === "step-4" ? <StepFour handleChanges={handleChanges} /> : null}
       {steps === "step-5" ? <StepFive handleChanges={handleChanges} /> : null}
       {steps === "step-6" ? <StepSix handleChanges={handleChanges} /> : null}
-      {steps === "finished" ? <FinalStep /> : null}
-      {/* <Home /> */}
-      <NavBtn
-        btnText={
-          steps === "step-6"
-            ? "Finished"
-            : steps == "finished"
-            ? "Get start!"
-            : "Next"
-        }
-        handleNav={() => handleNav(steps)}
-      />
+      {steps === "finished" ? (
+        <FinalStep caloryAmount={userData.caloryAmount} />
+      ) : null}
+      {steps == "home" ? <Home /> : null}
+      {steps != "home" ? (
+        <NavBtn
+          btnText={
+            steps === "step-6"
+              ? "Finished"
+              : steps == "finished"
+              ? "Get start!"
+              : "Next"
+          }
+          handleNav={
+            steps == "step-6"
+              ? () => getData()
+              : steps == "finished"
+              ? () => getMealPlan()
+              : () => handleNav(steps)
+          }
+        />
+      ) : null}
+      {steps == "allMealPlan" ? <AllMealPlans /> : null}
     </main>
   );
 }
