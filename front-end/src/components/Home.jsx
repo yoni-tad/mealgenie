@@ -37,7 +37,7 @@ export default function Home(props) {
         <Menu size={28} />
         <Star size={28} className="text-yellow-400" />
       </div>
-      <div className="py-6">
+      <div className="py-6 text-start">
         <p className="text-3xl font-bold">Hi, Yoni</p>
         <p className="">Exercise is king. Nutrition is queen</p>
       </div>

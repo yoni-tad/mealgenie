@@ -12,6 +12,8 @@ import Home from "./components/Home";
 import NavBtn from "./components/ui/NavBtn";
 import { getResponseFromAI, generateMealPlan } from "./ai";
 import AllMealPlans from "./components/AllMealPlans";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
   const [userData, setUserData] = useState({
@@ -35,6 +37,19 @@ export default function App() {
   );
   const [onLoading, setOnLoading] = useState(false);
 
+  const showToastMessage = (text, type = "error") => {
+    toast[type](text, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  };
+
   useEffect(() => {
     localStorage.setItem("Data", JSON.stringify(userData));
     localStorage.setItem("Nav", steps);
@@ -45,11 +60,16 @@ export default function App() {
     setOnLoading(true);
     const generatedData = await getResponseFromAI(userData);
     const calorieIntake = parseInt(generatedData.match(/\d+/)?.[0] || "0", 10);
-    setUserData((prevData) => ({
-      ...prevData,
-      caloryAmount: calorieIntake,
-    }));
-    setSteps("finished");
+    if (calorieIntake) {
+      setUserData((prevData) => ({
+        ...prevData,
+        caloryAmount: calorieIntake,
+      }));
+      setSteps("finished");
+    } else {
+      showToastMessage("Error on response, Try again!", "error");
+      console.log("Error on response, Try again!");
+    }
     setOnLoading(false);
   }
 
@@ -137,9 +157,11 @@ export default function App() {
         localStorage.setItem("MealPlan", JSON.stringify(jsonData));
         setSteps("home");
       } catch (error) {
+        showToastMessage("JSON Parsing Error, Try again!", "error");
         console.error("JSON Parsing Error:", error);
       }
     } else {
+      showToastMessage("No valid JSON found in response, Try again!", "error");
       console.error("No valid JSON found in response.");
     }
     setOnLoading(false);
@@ -147,6 +169,7 @@ export default function App() {
 
   return (
     <main className="flex flex-col h-screen py-10 px-4">
+      <ToastContainer />
       {steps != "home" ? <Header clearData={clearData} /> : null}
       {steps != "home" ? <Progress progress={progress} /> : null}
       {steps === "step-1" ? <StepOne handleChanges={handleChanges} /> : null}
