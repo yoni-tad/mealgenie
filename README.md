@@ -19,12 +19,15 @@
 ## Demo  
 
 🎥 **Watch the Demo Video**:  
-https://github.com/user-attachments/assets/65a24e87-a431-4eba-a1fa-c1f7a2b0612e
+
+
+https://github.com/user-attachments/assets/691f8a47-f686-40eb-b171-52d0b8582522
+
 
 
 
 🌐 **Live Demo**:  
-[Try MealGenie Now!](https://your-live-demo-link.com)  
+[Try MealGenie Now!](https://mealgenie-pearl.vercel.app)  
 
 ## Features
 
