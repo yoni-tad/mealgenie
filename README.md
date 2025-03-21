@@ -28,6 +28,7 @@ https://github.com/user-attachments/assets/691f8a47-f686-40eb-b171-52d0b8582522
 
 🌐 **Live Demo**:  
 [Try MealGenie Now!](https://mealgenie-pearl.vercel.app)  
+[Try MealGenie Mini App!](https://t.me/meal_genie_bot)  
 
 ## Features
 
