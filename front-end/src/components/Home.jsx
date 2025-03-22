@@ -46,7 +46,7 @@ export default function Home(props) {
         </a>
       </div>
       <div className="py-6 text-start">
-        <p className="text-3xl font-bold">Hi, Yoni</p>
+        <p className="text-3xl font-bold">Hi, {props.userData.name ?? "Unknown"}</p>
         <p className="">Exercise is king. Nutrition is queen</p>
       </div>
       {route != "recipe" ? (
